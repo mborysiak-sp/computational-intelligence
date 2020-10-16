@@ -33,6 +33,15 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
             self.create_next_generation()
             self.all_generations.append(self.current_generation)
 
+    def print_chromosome(self, chromosome):
+        weight = 0
+        for i, item in enumerate(items):
+            if chromosome[1][i] == 1:
+                weight += item.weight
+                print(item.name)
+        print(f"Total weight: {weight}")
+        print(f"Best chromosome: {chromosome}")
+
 
 def fitness(individual, data):
     weight, price = 0, 0
@@ -63,16 +72,8 @@ def calculate_best_chromosome():
     return ga.best_individual()
 
 
-def print_best_chromosome(best_chromosome):
-    weight = 0
-    for i, item in enumerate(items):
-        if best_chromosome[1][i] == 1:
-            weight += item.weight
-            print(item.name)
-    print(f"Total weight: {weight}")
-    print(f"Best chromosome: {best_chromosome}")
-
-
 if __name__ == "__main__":
     best_chromosome_result = calculate_best_chromosome()
-    print_best_chromosome(best_chromosome_result)
+    ga.print_chromosome(best_chromosome_result)
+
+
