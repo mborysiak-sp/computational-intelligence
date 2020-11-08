@@ -1,4 +1,5 @@
 from pyeasyga.pyeasyga import GeneticAlgorithm
+from matplotlib import pyplot as plt
 
 
 def is_int(string):
@@ -6,19 +7,21 @@ def is_int(string):
 
 
 class Clause:
-    clause = []
+    variables = []
 
     def __init__(self, line):
         self.read_clause(line)
 
     def read_clause(self, line):
         line = line.split(" ")
-        elements = [value for value in line if is_int(value)]
-        self.clause = elements
+        variables = [value for value in line if is_int(value)]
+        self.variables = variables
 
 
 class Formula:
     clauses = []
+    clause_count = 0
+    variable_count = 0
 
     def __init__(self, dimacs_file_name):
         self.read_dimacs(dimacs_file_name)
@@ -26,6 +29,8 @@ class Formula:
     def read_dimacs(self, dimacs_file_name):
         with open(dimacs_file_name) as dimacs_file:
             lines = dimacs_file.readlines()
+            header = [line for line in lines if line.startswith("p")]
+            self.variable_count, self.clause_count = [word for word in header if is_int(word)]
             lines_with_clauses = [line for line in lines if line.startswith(("c", "p")) is False]
             for line in lines_with_clauses:
                 self.clauses.append(Clause(line))
