@@ -1,0 +1,2 @@
+pyeasyga==0.3.1
+matplotlib==3.3.2
