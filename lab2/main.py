@@ -90,13 +90,8 @@ if __name__ == "__main__":
                                 maximise_fitness=True)
 
     ga.fitness_function = fitness
-
     best_chromosome_result = ga.calculate_best_chromosome()
     ga.print_chromosome(best_chromosome_result)
-
-    for average_fitness in ga.average_fitnesses:
-        print(average_fitness)
-
     ga.draw_plots()
 
 
