@@ -10,11 +10,12 @@ print(dataframe.isnull().sum())
 
 for column in dataframe:
     if column != "variety":
+        dataframe[column] = dataframe[column].where(dataframe[column].between(0, 15),
+                                                    numpy.NAN)
+        print(dataframe[column].max())
         median = dataframe[column].median()
         dataframe[column].fillna(median, inplace=True)
-        dataframe[column] = numpy.where((dataframe[column] < 0) & (dataframe[column] > 15),
-                                        median,
-                                        dataframe[column])
+        print(dataframe[column])
 
 varieties = ["Versicolor",
              "Virginica",
@@ -22,8 +23,8 @@ varieties = ["Versicolor",
 
 print(dataframe[~dataframe.variety.isin(varieties)])
 
-dataframe["variety"] = numpy.where((dataframe["variety"] == "Versicolour"),
-                                   "Versicolor",
-                                   dataframe["variety"].str.capitalize())
+dataframe["variety"] = dataframe["variety"].str.capitalize()
+
+dataframe["variety"].mask(dataframe["variety"] == "Versicolour", "Versicolor", inplace=True)
 
 print(dataframe[~dataframe.variety.isin(varieties)])
