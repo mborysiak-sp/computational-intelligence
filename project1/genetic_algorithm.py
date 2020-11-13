@@ -2,6 +2,7 @@ import time
 from pyeasyga.pyeasyga import GeneticAlgorithm
 from matplotlib import pyplot as plt
 from project1.formula import Formula
+from project1.three_sat import ThreeSAT
 
 
 class CustomGeneticAlgorithm(GeneticAlgorithm):
@@ -15,6 +16,9 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
         for _ in range(1, self.generations):
             self.create_next_generation()
             self.append_generation()
+            if self.best_individual()[0] == 91:
+                print("done")
+                break
 
     def calculate_population_average_fitness(self):
         generation_fitness = [individual.fitness for individual in self.current_generation]
@@ -38,31 +42,15 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
         plt.show()
 
 
-class ThreeSAT:
-    def __init__(self, ga, formula):
-        self.ga = ga
-        self.formula = formula
-
-    def fitness(self, individual, _):
-        clauses = self.formula.clauses
-        score = 0
-        for clause in clauses:
-            for variable in clause.variables:
-                variable.value = individual[variable.index]
-            if clause.is_true():
-                score = score + 1
-        return score
-
-
 def main():
     # formula = Formula("CBS_k3_n100_m403_b10_0.cnf")
-    formula = Formula("250_1065.cnf")
+    formula = Formula("100_403.cnf")
     data = [0] * formula.variable_count
     ga = CustomGeneticAlgorithm(data,
                                 population_size=100,
-                                generations=100,
+                                generations=200,
                                 crossover_probability=0.8,
-                                mutation_probability=0.5,
+                                mutation_probability=1,
                                 elitism=True,
                                 maximise_fitness=True)
     three_sat = ThreeSAT(ga=ga, formula=formula)
