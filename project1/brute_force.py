@@ -1,5 +1,5 @@
 """Brute force solving of 3-SAT problem"""
-
+import os
 import time
 from itertools import product
 from project1.formula import Formula
@@ -22,11 +22,12 @@ def brute_force(formula):
 
 
 def main():
-    formula = Formula("uf20-01.cnf")
-    brute_force(formula)
-    start_time = time.thread_time()
-    end_time = time.thread_time()
-    print(end_time - start_time)
+    formula = Formula(os.path.join("data", "42_133.cnf"))
+    start_time = time.perf_counter()
+    best_value = brute_force(formula)
+    end_time = time.perf_counter()
+    print(f"Time: {end_time - start_time}")
+    print(f"Best value: {best_value}")
 
 
 if __name__ == "__main__":

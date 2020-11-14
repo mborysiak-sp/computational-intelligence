@@ -1,5 +1,6 @@
 """Genetic algorithm implementation"""
 import time
+import os
 from pyeasyga.pyeasyga import GeneticAlgorithm
 from matplotlib import pyplot as plt
 from project1.formula import Formula
@@ -56,23 +57,26 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
 
 
 def main():
-    # formula = Formula("CBS_k3_n100_m403_b10_0.cnf")
-    formula = Formula("100_403.cnf")
+    formula = Formula(os.path.join("data", "42_133.cnf"))
     data = [0] * formula.variable_count
     ga = CustomGeneticAlgorithm(data,
+                                clauses_count=formula.clause_count,
                                 population_size=100,
                                 generations=200,
                                 crossover_probability=0.8,
                                 mutation_probability=1,
                                 elitism=True,
                                 maximise_fitness=True)
+
     three_sat = ThreeSAT(ga=ga, formula=formula)
     three_sat.ga.fitness_function = three_sat.fitness
-    tic = time.perf_counter()
+
+    start_time = time.perf_counter()
     best_chromosome_result = three_sat.ga.calculate_best_chromosome()
-    toc = time.perf_counter()
-    print(toc - tic)
-    print(best_chromosome_result)
+    end_time = time.perf_counter()
+
+    print(f"Time: {end_time - start_time}")
+    print(f"Best value: {best_chromosome_result}")
     three_sat.ga.draw_plots()
 
 
