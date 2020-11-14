@@ -8,14 +8,14 @@ from project1.three_sat import ThreeSAT
 
 
 class CustomGeneticAlgorithm(GeneticAlgorithm):
-    """Extended version of pyeasyga genetic algorithm"""
+    """Extended version of pyeasyga GeneticAlgorithm class"""
     all_generations = []
     average_fitnesses = []
     best_fitnesses = []
 
-    def __init__(self, clauses_count, *args, **kwargs):
+    def __init__(self, *args, clause_count, **kwargs):
         super().__init__(*args, **kwargs)
-        self.clauses_count = clauses_count
+        self.clause_count = clause_count
 
     def run(self):
         """Extends inherited run() method with additional check for searched value"""
@@ -25,7 +25,7 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
             self.create_next_generation()
             self.append_generation()
             # Check if current best individual is equal to searched number of true clauses and break loop if True
-            if self.best_individual()[0] == self.clauses_count:
+            if self.best_individual()[0] == self.clause_count:
                 break
 
     def calculate_population_average_fitness(self):
@@ -57,14 +57,15 @@ class CustomGeneticAlgorithm(GeneticAlgorithm):
 
 
 def main():
-    formula = Formula(os.path.join("data", "42_133.cnf"))
+    formula = Formula(os.path.join("data", "uf20-03.cnf"))
     data = [0] * formula.variable_count
+    clause_count = formula.clause_count
     ga = CustomGeneticAlgorithm(data,
-                                clauses_count=formula.clause_count,
+                                clause_count=clause_count,
                                 population_size=100,
                                 generations=200,
                                 crossover_probability=0.8,
-                                mutation_probability=1,
+                                mutation_probability=0.1,
                                 elitism=True,
                                 maximise_fitness=True)
 

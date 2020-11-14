@@ -22,7 +22,7 @@ def brute_force(formula):
 
 
 def main():
-    formula = Formula(os.path.join("data", "42_133.cnf"))
+    formula = Formula(os.path.join("data", "uf20-05.cnf"))
     start_time = time.perf_counter()
     best_value = brute_force(formula)
     end_time = time.perf_counter()
