@@ -23,10 +23,11 @@ def get_integers_from_string(string):
 class Variable:
     """Class with logic related to variable"""
     def __init__(self, unprocessed_variable):
-        unprocessed_variable_int = int(unprocessed_variable)
+        if type(unprocessed_variable) == str:
+            unprocessed_variable = int(unprocessed_variable)
         # values from file start from 1 instead of 0
-        self.index = abs(unprocessed_variable_int) - 1
-        self.is_negative = unprocessed_variable_int < 0
+        self.index = abs(unprocessed_variable) - 1
+        self.is_negative = unprocessed_variable < 0
         self.value = None
 
     def is_true(self):
@@ -76,7 +77,7 @@ class Formula:
         with open(dimacs_file_name) as dimacs_file:
             lines = dimacs_file.readlines()
             header = [line for line in lines if line.startswith("p")][0]
-            lines_with_clauses = [line for line in lines if line.startswith(("c", "p")) is False]
+            lines_with_clauses = [line for line in lines if line.startswith(("c", "p", "%", "0")) is False]
             self.extract_clauses(lines_with_clauses)
             self.extract_counts(header)
 
