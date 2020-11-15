@@ -27,6 +27,10 @@ class ThreeSAT:
         return score
 
     def test_ga(self):
+        """
+        Creates CustomGeneticAlgorithm instance and runs it
+        :return: tuple(float, int)
+        """
         data = [0] * self.formula.variable_count
         clause_count = self.formula.clause_count
         ga = CustomGeneticAlgorithm(data,
@@ -47,6 +51,10 @@ class ThreeSAT:
         return time, best_chromosome_result[0]
 
     def test_brute_force(self):
+        """
+        Creates CustomGeneticAlgorithm instance and runs it
+        :return: tuple(float, int)
+        """
         start_time = timer()
         best_result = brute_force(formula=self.formula, fitness_function=self.fitness)
         end_time = timer()
@@ -54,6 +62,7 @@ class ThreeSAT:
         return time, best_result
 
     def test_algorithms(self):
+        """Runs all algorithms and prints their results and times"""
         print("GA: ", self.test_ga())
         print("Brute force: ", self.test_brute_force())
 
