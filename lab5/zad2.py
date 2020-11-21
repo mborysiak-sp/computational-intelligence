@@ -10,16 +10,19 @@ data = pd.read_csv("iris.csv")
 train, test = train_test_split(data,
                                test_size=0.7,
                                stratify=data["variety"])
-X_train = train[['sepal.length', 'sepal.width', 'petal.length', 'petal.width']]
+X_train = train[["sepal.length", "sepal.width", "petal.length", "petal.width"]]
 y_train = train.variety
-X_test = test[['sepal.length', 'sepal.width', 'petal.length', 'petal.width']]
+X_test = test[["sepal.length", "sepal.width", "petal.length", "petal.width"]]
 y_test = test.variety
 dt = DecisionTreeClassifier(max_depth=3, random_state=1)
 dt.fit(X_train, y_train)
-r = export_text(dt)
+r = export_text(dt,
+                feature_names=["sepal.length", "sepal.width", "petal.length", "petal.width"])
 print(r)
 prediction = dt.predict(X_test)
 print("The accuracy of the Decision Tree is", "{:.3f}".format(metrics.accuracy_score(prediction, y_test)))
-plot_tree(dt)
+plot_tree(dt, 
+          class_names=["setosa", "versicolor", "virginica"],
+          feature_names=["sepal.length", "sepal.width", "petal.length", "petal.width"])
 plt.show()
 print(confusion_matrix(y_test, prediction))
